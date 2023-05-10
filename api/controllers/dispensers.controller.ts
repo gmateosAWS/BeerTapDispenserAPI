@@ -3,7 +3,7 @@
 import express from 'express';
 
 // Import our dispenser services
-import dispenserService from '../services/dispenser.services';
+import dispenserService from '../services/dispensers.services';
 
 // Use debug with custom context
 import debug from 'debug';
@@ -16,22 +16,25 @@ class DispensersController {
         // TO-DO: ¿donde ponemos este valor?
         // req.body.flow_volume viene en la request
         req.body.pricePerLiter = 12.25;
-        req.body.status = "open";
-        req.body.updatedAt = new Date();
-        const dispenserId = await dispenserService.create(req.body);
-        res.status(200).send({ id: dispenserId });
+        req.body.status = "close";
+        req.body.updated_at = new Date();
+        const dispenser = await dispenserService.create(req.body);
+        res.status(200).send(dispenser);
     }
 
     async changeStatus(req: express.Request, res: express.Response) {
-        if (req.body.status == 'close') {
-            req.body.status = 'closed';
+        const dispenser = await dispenserService.getById(req.body.id);
+        if (dispenser !== undefined && dispenser.status == req.body.status) {
+            res.status(409).send( `Dispenser ${dispenser.id} status is already ${dispenser.status}`);
         }
-        log(await dispenserService.patchById(req.params.id, req.body));
+        log(await dispenserService.patchById(req.body.id, req.body));
         res.status(202).send();
     }
 
     async getRevenue(req: express.Request, res: express.Response) {
-        log(await dispenserService.getById(req.params.id));
-        res.status(204).send();
+        //log(await dispenserService.getById(req.body.id));
+        //res.status(200).send();
     }
 }
+
+export default new DispensersController();

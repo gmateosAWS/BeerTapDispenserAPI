@@ -2,7 +2,7 @@ import DispensersDao from '../daos/dispensers.daos';
 import { CRUD } from '../../common/interfaces/crud.interface';
 import { CreateDispenserDto } from '../dto/create.dispenser.dto';
 
-class DispenserService implements CRUD {
+class DispensersService implements CRUD {
     async create(resource: CreateDispenserDto) {
         return DispensersDao.addDispenser(resource);
     }    
@@ -17,4 +17,4 @@ class DispenserService implements CRUD {
 
 }
 
-export default new DispenserService();
+export default new DispensersService();
