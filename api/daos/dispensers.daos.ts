@@ -1,5 +1,4 @@
 import { CreateDispenserDto } from '../dto/create.dispenser.dto';
-import { PutDispenserDto } from '../dto/put.dispenser.dto';
 import { PatchDispenserDto } from '../dto/patch.dispenser.dto';
 import { nanoid } from 'nanoid';
 import debug from 'debug';
