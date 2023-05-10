@@ -1,6 +1,9 @@
 /BeerTapDispenserAPI.code-workspace
 /dispenserAPI.ts
 
+# MongoDB
+/data
+
 # Logs
 logs
 *.log

@@ -5,7 +5,7 @@
   "main": "app.ts",
   "scripts": {
     "start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
-    "dev": "cross-env DEBUG=* && npm run start",
+    "dev": "cross-env DEBUG=* npm run start",
     "test": "app.test.ts"
   },
   "keywords": [
@@ -20,6 +20,7 @@
     "debug": "^4.3.4",
     "express": "^4.18.2",
     "express-winston": "^4.2.0",
+    "mongoose": "^7.1.0",
     "nanoid": "^3.0.0",
     "winston": "^3.8.2"
   },

@@ -8,7 +8,7 @@ import dispenserService from '../services/dispensers.services';
 // Use debug with custom context
 import debug from 'debug';
 
-const log: debug.IDebugger = debug('app:users-controller');
+const log: debug.IDebugger = debug('app:dispensers-controller');
 
 class DispensersController {
 
@@ -24,7 +24,7 @@ class DispensersController {
 
     async changeStatus(req: express.Request, res: express.Response) {
         const dispenser = await dispenserService.getById(req.body.id);
-        if (dispenser !== undefined && dispenser.status == req.body.status) {
+        if (dispenser && dispenser !== undefined && dispenser.status == req.body.status) {
             res.status(409).send( `Dispenser ${dispenser.id} status is already ${dispenser.status}`);
         }
         log(await dispenserService.patchById(req.body.id, req.body));
@@ -32,7 +32,7 @@ class DispensersController {
     }
 
     async getRevenue(req: express.Request, res: express.Response) {
-        //log(await dispenserService.getById(req.body.id));
+        //log(await dispenserService.getRevenueById(req.body.id));
         //res.status(200).send();
     }
 }

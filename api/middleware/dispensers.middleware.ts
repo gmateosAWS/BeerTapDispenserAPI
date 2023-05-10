@@ -2,7 +2,7 @@ import express from 'express';
 import DispensersService from '../services/dispensers.services';
 import debug from 'debug';
 
-const log: debug.IDebugger = debug('app:dispensers-controller');
+const log: debug.IDebugger = debug('app:dispensers-middleware');
 
 class DispensersMiddleware {
     async validateRequiredBodyFields(
