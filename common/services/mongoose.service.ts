@@ -23,7 +23,9 @@ class MongooseService {
     connectWithRetry = () => {
         log('Attempting MongoDB connection (will retry if needed)');
         mongoose
-            .connect('mongodb://localhost:27017/api-db', this.mongooseOptions)
+            //.connect('mongodb://localhost:27017/api-db', this.mongooseOptions)
+            // Connect to "mongo" instead of localhost, as this is the name of the service in the docker settings for the app
+            .connect('mongodb://mongodb:27017/api-db', this.mongooseOptions)
             .then(() => {
                 log('MongoDB is connected');
             })
