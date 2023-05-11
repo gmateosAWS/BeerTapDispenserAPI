@@ -40,6 +40,7 @@ export class ApiRoutes extends RoutesConfig {
             */
             .put('/dispenser/:id/status', [
                 DispensersMiddleware.validateDispenserExists,
+                DispensersMiddleware.validateRequiredBodyFields,
                 DispensersController.changeStatus
             ]);
 
@@ -61,7 +62,7 @@ export class ApiRoutes extends RoutesConfig {
             */
             .get('/dispenser/:id/spending', [
                 DispensersMiddleware.validateDispenserExists,
-                DispensersController.getRevenue
+                DispensersController.getAmount
             ]);
 
         return this.app;

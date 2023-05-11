@@ -31,8 +31,8 @@ class DispensersController {
         res.status(202).send();
     }
 
-    async getRevenue(req: express.Request, res: express.Response) {
-        //log(await dispenserService.getRevenueById(req.body.id));
+    async getAmount(req: express.Request, res: express.Response) {
+        //log(await dispenserService.getAmountById(req.body.id));
         //res.status(200).send();
     }
 }

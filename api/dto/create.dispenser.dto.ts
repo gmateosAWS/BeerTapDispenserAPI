@@ -4,5 +4,5 @@ export interface CreateDispenserDto {
     pricePerLiter: number;
     status: string;
     updated_at?: Date;
-    revenue?: number;
+    amount?: number;
 }
