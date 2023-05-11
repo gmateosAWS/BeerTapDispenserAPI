@@ -7,6 +7,7 @@ import cors from 'cors';
 import {RoutesConfig} from './common/routes.config';
 import {ApiRoutes} from './api/routes.config';
 import debug from 'debug';
+import helmet from 'helmet';
 
 // Create the main Express application and add it to the http Server object
 const app: express.Application = express();
@@ -26,6 +27,9 @@ app.use(bodyparser.json());
 // Add the middleware to allow cross-origin requests
 app.use(cors());
 
+// Using the Helmet library to help protect against common security vulnerabilities
+app.use(helmet());
+
 // Set up express Winston logging middleware configuration,
 // which will automatically log all HTTP requests handled by Express.js
 const winstonLoggerOptions: expressWinston.LoggerOptions  = {
@@ -40,6 +44,9 @@ const winstonLoggerOptions: expressWinston.LoggerOptions  = {
 if (!process.env.DEBUG) {
     // When not debugging, log requests as one-liners
     winstonLoggerOptions.meta = false;
+    if (typeof global.it === 'function') {
+        winstonLoggerOptions.level = 'http'; // for non-debug test runs, squelch entirely
+    }    
 }
 
 // And initialize the logger with the above configuration
@@ -54,6 +61,9 @@ const runningMessage = `Server running at http://localhost:${port}`;
 app.get('/', (req: express.Request, res: express.Response) => {
     res.status(200).send(runningMessage)
 });
+
+// Export our app to be consumed by our tests
+export { app, server };
 
 // Start the server
 server.listen(port, () => {

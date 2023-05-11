@@ -4,6 +4,9 @@
 # MongoDB
 /data
 
+# Tests
+/test
+
 # Logs
 logs
 *.log

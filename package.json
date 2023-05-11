@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && node --unhandled-rejections=strict ./dist/app.js",
     "dev": "cross-env DEBUG=* npm run start",
-    "test": "app.test.ts"
+    "test": "mocha -r ts-node/register 'test/**/*.test.ts' --unhandled-rejections=strict",
+    "test-debug": "cross-env DEBUG=* npm test"
   },
   "keywords": [
     "Dispenser",
@@ -20,16 +21,24 @@
     "debug": "^4.3.4",
     "express": "^4.18.2",
     "express-winston": "^4.2.0",
+    "helmet": "^7.0.0",
     "mongoose": "^7.1.0",
     "nanoid": "^3.0.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.5",
     "@types/cors": "^2.8.13",
     "@types/debug": "^4.1.7",
     "@types/express": "^4.17.17",
+    "@types/mocha": "^10.0.1",
+    "@types/supertest": "^2.0.12",
+    "chai": "^4.3.7",
     "cross-env": "^7.0.3",
+    "mocha": "^10.2.0",
     "source-map-support": "^0.5.21",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.1",
     "tslint": "^6.1.3",
     "typescript": "^5.0.4"
   }
