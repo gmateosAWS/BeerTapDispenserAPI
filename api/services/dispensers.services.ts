@@ -15,6 +15,10 @@ class DispensersService implements CRUD {
     async patchById(id: string, resource: PatchDispenserDto) {
         return DispensersDao.updateDispenserById(id, resource);
     }
+
+    async getAmountAndUsages(id: string) {
+        return DispensersDao.getAmountAndUsages(id);
+    }    
 }
 
 export default new DispensersService();

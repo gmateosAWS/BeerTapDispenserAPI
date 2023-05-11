@@ -137,8 +137,46 @@ class DispensersDao {
         return dispenser;
     }
 
-    async getAmountById(id: string) {
-        return this.dispensers.find((dispenser: { id: string }) => dispenser.id === id)?.amount;
+    async getAmountAndUsages(id: string) {
+        //return this.dispensers.find((dispenser: { id: string }) => dispenser.id === id)?.amount;
+        // Find the dispenser by its id
+        const dispenser = await this.Dispenser.findById(id, 'pricePerLiter usages')
+            .populate({
+                path: 'usages',
+                model: 'Usage',
+                select: 'flow_volume opened_at closed_at total_spent'
+            })
+            .sort({ opened_at: 'desc' })
+            .exec();
+        
+        if (dispenser) {
+            log(`Dispenser ${id} found.`);
+
+            // First we check if the dispenser has an open spending line currently working
+            const currentSpendingLine = dispenser?.usages.find((usage) => !usage.closed_at || usage.closed_at === null);
+            let openAmount = 0;
+            // If so, we get the acumulated amount for that tap
+            if (currentSpendingLine) {
+                // Calculate spent for the open tap
+                const timeDiff = new Date().valueOf() - new Date(currentSpendingLine.opened_at).valueOf();
+                const liters = (timeDiff / 1000) * currentSpendingLine.flow_volume.valueOf();
+                openAmount += liters * dispenser.pricePerLiter.valueOf();
+                log(`Dispenser ${id}: open line ${currentSpendingLine._id} acumulated amount: ${openAmount}`);
+            }
+
+            // Then we sum the amounts from the closed spending lines in the dispenser
+            const usages = await this.Usage.find({ _id: { $in: dispenser.usages } });
+            const totalClosedAmount = usages.reduce((sum, usage) => sum + usage.total_spent.valueOf(), 0);
+        
+            log(`Dispenser ${id}: closed lines acumulated amount ${totalClosedAmount}`);
+
+            // And update dispenser total amount by adding everything
+            dispenser.amount = totalClosedAmount + openAmount;
+
+            await dispenser.save();
+        }
+
+        return dispenser;
     }       
 }
 

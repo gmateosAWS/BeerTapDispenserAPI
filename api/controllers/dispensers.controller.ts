@@ -31,9 +31,9 @@ class DispensersController {
         res.status(202).send();
     }
 
-    async getAmount(req: express.Request, res: express.Response) {
-        //log(await dispenserService.getAmountById(req.body.id));
-        //res.status(200).send();
+    async getAmountAndUsages(req: express.Request, res: express.Response) {
+        const response = await dispenserService.getAmountAndUsages(req.body.id);
+        res.status(200).send(response);
     }
 }
 
